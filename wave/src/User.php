@@ -214,7 +214,12 @@ class User extends AuthUser implements JWTSubject, HasAvatar, FilamentUser
 
     public function avatar()
     {
-        return Storage::url($this->avatar);
+        if (!empty($this->avatar)) {
+            return Storage::url($this->avatar);
+        }
+        
+        // Return a default avatar if none is set
+        return url('storage/demo/default.png');
     }
 
     /**

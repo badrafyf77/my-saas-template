@@ -6,10 +6,11 @@ use Illuminate\Support\Str;
 use Wave\User as WaveUser;
 use Illuminate\Notifications\Notifiable;
 use Wave\Traits\HasProfileKeyValues;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends WaveUser
 {
-    use Notifiable, HasProfileKeyValues;
+    use Notifiable, HasProfileKeyValues, HasFactory;
 
     public $guard_name = 'web';
 
@@ -66,5 +67,13 @@ class User extends WaveUser
             // Assign the default role
             $user->assignRole( config('wave.default_user_role', 'registered') );
         });
+    }
+
+    /**
+     * Get the projects for the user.
+     */
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
     }
 }
